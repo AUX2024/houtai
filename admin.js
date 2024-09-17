@@ -12,7 +12,7 @@ function adminLogin() {
 }
 
 function showUsers() {
-    fetch('http://localhost:3000/users')
+    fetch('https://seven-clouds-clap.loca.lt/users')
         .then(response => response.json())
         .then(users => {
             const userTable = document.getElementById('userTable');
@@ -42,7 +42,7 @@ function addFunds(username) {
         return;
     }
 
-    fetch('http://localhost:3000/addBalance', {
+    fetch('https://seven-clouds-clap.loca.lt/addBalance', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
