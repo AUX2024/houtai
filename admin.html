@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台</title>
+    <link rel="stylesheet" href="style.css"> <!-- 使用相同的样式表 -->
+</head>
+<body>
+    <!-- 管理员登录页面 -->
+    <div id="adminLoginPage" class="centered-container">
+        <h1 class="title">管理后台</h1>
+        <div class="admin-login-container">
+            <input type="password" id="adminPassword" placeholder="输入管理员密码" class="input-field">
+            <button class="button gold-button" onclick="adminLogin()">登录管理后台</button>
+        </div>
+    </div>
+
+    <!-- 管理操作页面 -->
+    <div id="adminActionsPage" class="centered-container" style="display:none;">
+        <h1 class="title">账户管理</h1>
+        <input type="text" id="manageUsername" placeholder="输入用户名" class="input-field">
+        <input type="number" id="manageAmount" placeholder="输入增加的金额" class="input-field">
+        <button class="button green-button" onclick="addFunds()">增加余额</button>
+        <button class="button red-button" onclick="logoutAdmin()">退出管理后台</button>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
