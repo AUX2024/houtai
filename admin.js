@@ -12,7 +12,7 @@ function adminLogin() {
 }
 
 function showUsers() {
-    fetch('https://seven-clouds-clap.loca.lt/users')
+    fetch('https://plenty-horses-rush.loca.lt/users')
         .then(response => response.json())
         .then(users => {
             const userTable = document.getElementById('userTable');
@@ -42,7 +42,7 @@ function addFunds(username) {
         return;
     }
 
-    fetch('https://seven-clouds-clap.loca.lt/addBalance', {
+    fetch('https://plenty-horses-rush.loca.lt/addBalance', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
