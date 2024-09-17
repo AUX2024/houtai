@@ -11,25 +11,60 @@ function adminLogin() {
     }
 }
 
-function addFunds() {
-    const username = document.getElementById('manageUsername').value;
-    const amount = parseFloat(document.getElementById('manageAmount').value);
-    let users = JSON.parse(localStorage.getItem('users')) || {};
+function showUsers() {
+    fetch('http://localhost:3000/users')
+        .then(response => response.json())
+        .then(users => {
+            const userTable = document.getElementById('userTable');
+            userTable.innerHTML = ''; // 清空表格
 
-    if (username && amount > 0) {
-        if (users[username]) {
-            users[username].balance += amount; // 增加用户余额
-            localStorage.setItem('users', JSON.stringify(users));
-            alert(`已成功为用户 ${username} 增加 ¥${amount.toFixed(2)} 的余额`);
-        } else {
-            alert('用户不存在');
-        }
-    } else {
-        alert('请输入有效的用户名和金额');
+            Object.keys(users).forEach(username => {
+                const user = users[username];
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.balance}</td>
+                    <td><input type="number" id="amount-${user.username}" placeholder="增加余额"></td>
+                    <td><button onclick="addFunds('${user.username}')">增加余额</button></td>
+                `;
+                userTable.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// 添加资金
+function addFunds(username) {
+    const amount = parseFloat(document.getElementById(`amount-${username}`).value);
+
+    if (isNaN(amount) || amount <= 0) {
+        alert('请输入有效的金额');
+        return;
     }
+
+    fetch('http://localhost:3000/addBalance', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, amount })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === '余额增加成功') {
+                alert(`余额增加成功，当前余额：${data.balance}`);
+                showUsers(); // 刷新用户列表
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function logoutAdmin() {
     document.getElementById('adminActionsPage').style.display = 'none';
     document.getElementById('adminLoginPage').style.display = 'block';
 }
+
+// 页面加载时显示用户列表
+document.addEventListener('DOMContentLoaded', showUsers);
